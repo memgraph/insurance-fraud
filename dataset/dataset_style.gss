@@ -1,0 +1,49 @@
+@NodeStyle {
+  size: 10
+  border-color: #FFFFFF
+  shadow-color: #BAB8BB
+  shadow-size: 2
+  color: white
+}
+@NodeStyle Greater?(Size(Labels(node)), 0) {
+  label: Format(":{}", Join(Labels(node), " :"))
+}
+@NodeStyle HasLabel?(node, "ADDRESS") {
+  image-url: "https://cdn-icons-png.flaticon.com/512/684/684908.png"
+}
+@NodeStyle HasLabel?(node, "CLAIM") {
+  image-url: "https://cdn-icons-png.flaticon.com/512/7481/7481597.png"
+}
+@NodeStyle HasLabel?(node, "CLAIM_PAYMENT") {
+  image-url: "https://cdn-icons-png.flaticon.com/512/1019/1019607.png"
+}
+@NodeStyle HasLabel?(node, "INCIDENT") {
+  image-url: "https://cdn-icons-png.flaticon.com/512/595/595067.png"
+}
+@NodeStyle HasLabel?(node, "INDIVIDUAL") {
+  image-url: "https://cdn-icons-png.flaticon.com/512/3048/3048122.png"
+}
+@NodeStyle HasLabel?(node, "INJURY") {
+  image-url: "https://cdn-icons-png.flaticon.com/512/3441/3441394.png"
+}
+@NodeStyle HasLabel?(node, "POLICY") {
+  image-url: "https://cdn-icons-png.flaticon.com/512/2471/2471660.png"
+}
+@NodeStyle HasLabel?(node, "VEHICLE") {
+  image-url: "https://cdn-icons-png.flaticon.com/512/741/741407.png"
+}
+@NodeStyle HasProperty?(node, "fraud") {
+  shadow-color: If(Equals?(Property(node, "fraud"), False),
+          blue, red)
+  shadow-size: If(Equals?(Property(node, "fraud"), False),
+          5, 30)
+  border-color: If(Equals?(Property(node, "fraud"), False),
+        white, red)
+  border-width: If(Equals?(Property(node, "fraud"), False),
+        0, 1)
+}
+@EdgeStyle {
+  color: #999999
+  width: 0.5
+  label: Type(edge)
+}
