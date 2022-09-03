@@ -1,3 +1,9 @@
+"""
+Generate parquet files with table data for insurance claims.
+Usage:
+    python data_generator <TOTAL_FAMILIES> <TOTAL_INCIDENTS>
+"""
+
 from dateutil.relativedelta import relativedelta
 from insurance import (
     Claim,
@@ -11,6 +17,8 @@ from insurance import (
 from insurance import random, faker, datetime, random_address
 import numpy as np
 import pandas as pd
+import sys
+import os
 
 from table_generator import (
     address_data,
@@ -126,16 +134,16 @@ def generate_incident():
     )
 
 
-TOTAL_FAMILIES = 1000
-TOTAL_INDICENTS = 300
-
-
 def generate_dataset():
     print("Data generation started...")
     individual_to_address = {}
     policy_to_individual = {}
     policy_to_vehicle = {}
-    for _ in range(TOTAL_FAMILIES):
+
+    total_families = int(sys.argv[1])
+    total_incidents = int(sys.argv[2])
+
+    for _ in range(total_families):
         indvs, address = generate_family()
         store_address(address)
 
@@ -172,7 +180,7 @@ def generate_dataset():
     policies = list(policy_to_individual.keys())
     addresses = list(individual_to_address.values())
 
-    for _ in range(TOTAL_INDICENTS):
+    for _ in range(total_incidents):
         incident, claims, payments, injuries = generate_incident()
         policy = random.choice(policies)
         policy_owner = policy_to_individual[policy]
@@ -216,16 +224,22 @@ def generate_dataset():
                     injury, claim, random.choice(incident_inds + [policy_owner])
                 )
 
-    individual_data().to_parquet("./data/individuals.parquet")
-    address_data().to_parquet("./data/address.parquet")
-    policy_data().to_parquet("./data/policy.parquet")
-    vehicle_data().to_parquet("./data/vehicle.parquet")
-    incident_data().to_parquet("./data/incident.parquet")
-    incident_individual_data().to_parquet("./data/incident_individual.parquet")
-    claim_data().to_parquet("./data/claim.parquet")
-    payment_data().to_parquet("./data/claim_payment.parquet")
-    injury_data().to_parquet("./data/injury.parquet")
-    print("Data stored in ./data !")
+    dir_path = "dataset/data/"
+
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+        print("Created directory dataset/data")
+
+    individual_data().to_parquet("dataset/data/" + "individuals.parquet")
+    address_data().to_parquet("dataset/data/" + "/address.parquet")
+    policy_data().to_parquet("dataset/data/" + "/policy.parquet")
+    vehicle_data().to_parquet("dataset/data/" + "/vehicle.parquet")
+    incident_data().to_parquet("dataset/data/" + "/incident.parquet")
+    incident_individual_data().to_parquet("dataset/data/" + "/incident_individual.parquet")
+    claim_data().to_parquet("dataset/data/" + "/claim.parquet")
+    payment_data().to_parquet("dataset/data/" + "/claim_payment.parquet")
+    injury_data().to_parquet("dataset/data/" + "/injury.parquet")
+    print("Data stored in dataset/data !")
 
 
 generate_dataset()
