@@ -2,6 +2,8 @@
 Generate parquet files with table data for insurance claims.
 Usage:
     python data_generator <TOTAL_FAMILIES> <TOTAL_INCIDENTS>
+
+Example of parameters: 1000 300
 """
 
 from dateutil.relativedelta import relativedelta
