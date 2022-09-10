@@ -1,0 +1,8 @@
+version: "3"
+services:
+  memgraph:
+    image: "memgraph/memgraph-platform:2.3.1"
+    ports:
+      - "3000:3000"
+      - "7687:7687"
+    entrypoint: ["/usr/bin/supervisord"]
